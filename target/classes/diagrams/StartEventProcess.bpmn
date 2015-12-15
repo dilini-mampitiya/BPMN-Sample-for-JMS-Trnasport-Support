@@ -5,7 +5,7 @@
     <startEvent id="messagestartevent1" name="Start">
       <extensionElements>
         <activiti:executionListener event="Start" class="org.wso2.carbon.bpmn.extensions.jms.JMSListener"></activiti:executionListener>
-        <ns1:outputMappings>name#/student/name#required;age#/student/age#required</ns1:outputMappings>
+        <ns1:outputMappings>name#/student/name#required;age#/student/age#required;messageName#/student/msgName#required</ns1:outputMappings>
         <ns1:onError>DROP</ns1:onError>
         <ns1:destinationType>queue</ns1:destinationType>
         <ns1:destinationName>queue1</ns1:destinationName>
