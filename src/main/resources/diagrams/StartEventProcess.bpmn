@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns1="https://www.wso2.com" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="startEvent" name="startEventMessage"></message>
+  <process id="startProcess" name="start process" isExecutable="true">
+    <startEvent id="messagestartevent1" name="Start">
+      <extensionElements>
+        <activiti:executionListener event="Start" class="org.wso2.carbon.bpmn.extensions.jms.JMSListener"></activiti:executionListener>
+        <ns1:outputMappings>name#/student/name#required;age#/student/age#required</ns1:outputMappings>
+        <ns1:onError>DROP</ns1:onError>
+        <ns1:destinationType>queue</ns1:destinationType>
+        <ns1:destinationName>queue1</ns1:destinationName>
+        <ns1:jmsProviderID>activemqJmsProviderConfiguration</ns1:jmsProviderID>
+      </extensionElements>
+      <messageEventDefinition messageRef="startEvent"></messageEventDefinition>
+    </startEvent>
+    <userTask id="usertask1" name="Get Name" activiti:assignee="admin">
+      <extensionElements>
+        <activiti:formProperty id="output" name="output" type="string" default="printed" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="name" name="name" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="messagestartevent1" targetRef="usertask1"></sequenceFlow>
+    <userTask id="usertask2" name="Print Name" activiti:assignee="admin">
+      <extensionElements>
+        <activiti:formProperty id="name " name="name" type="string" writable="false"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_startProcess">
+    <bpmndi:BPMNPlane bpmnElement="startProcess" id="BPMNPlane_startProcess">
+      <bpmndi:BPMNShape bpmnElement="messagestartevent1" id="BPMNShape_messagestartevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="180.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="260.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="560.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="215.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="260.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="365.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="515.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
